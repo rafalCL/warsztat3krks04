@@ -9,4 +9,10 @@
 
 <header>
     <h1>Programming school</h1>
+    <table>
+        <tr>
+            <td><a href="/">Strona główna</a></td>
+            <td><a href="/student/list">Studenci</a></td>
+        </tr>
+    </table>
 </header>

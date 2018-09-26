@@ -12,15 +12,17 @@
          isELIgnored="false" %>
 <html>
 <head>
-    <title>Szkoła programowania</title>
+    <title>Student add form - Programming School</title>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
-
-<h2>Ostatnie rozwiązania</h2>
-    <c:forEach var="sol" items="${solutions}">
-        ${sol.id} <a href="/solution/details?id=${sol.id}">Szczegóły</a><br>
-    </c:forEach>
+    <h2>Edycja studenta</h2>
+    <form method="post">
+        <input type="hidden" name="id" value="${student.id}">
+        <label>First name<input type="text" name="first_name" value="${student.firstName}"></label>
+        <label>Last name<input type="text" name="last_name" value="${student.lastName}"></label>
+        <input type="submit">
+    </form>
 
 <%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
 </body>

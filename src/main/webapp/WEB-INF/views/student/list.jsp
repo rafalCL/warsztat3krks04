@@ -17,6 +17,10 @@
 <body>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
 
+<h2>Students</h2>
+
+<a href="/student/addform">Add new</a>
+
 <table>
     <tr>
         <th>First name</th>
@@ -27,7 +31,8 @@
         <tr>
             <td>${stud.firstName}</td>
             <td>${stud.lastName}</td>
-            <td><a href="/student/details?id=${stud.id}">Szczegóły</a></td>
+            <td><a href="/student/details?id=${stud.id}">Szczegóły</a>
+                <a href="/student/editform?id=${stud.id}">Edit</a></td>
         </tr>
     </c:forEach>
 </table>

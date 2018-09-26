@@ -16,7 +16,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
-    <p>Dodaj studenta</p>
+    <h2>Dodawanie studenta</h2>
     <form method="post">
         <label>First name<input type="text" name="first_name"></label>
         <label>Last name<input type="text" name="last_name"></label>

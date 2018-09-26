@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Student {
-    private long id;
+    private static final long ID_NOT_SET = 0;
+
+    private long id = ID_NOT_SET;
     private String firstName;
     private String lastName;
 
@@ -16,6 +18,12 @@ public class Student {
     }
 
     public Student(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Student(long id, String firstName, String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -63,7 +71,15 @@ public class Student {
         return result;
     }
 
-    public static void insert(Student student){
+    public static void save(Student student){
+        if (student.getId() == ID_NOT_SET) {
+            insert(student);
+        } else {
+            update(student);
+        }
+    }
+
+    private static void insert(Student student) {
         final String sql = "INSERT INTO student " +
                 "(first_name, last_name) " +
                 "VALUES (?, ?);";
@@ -75,6 +91,24 @@ public class Student {
             ps.setString(2, student.getLastName());
             ps.executeUpdate();
             student.setId(getGeneratedId(ps));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void update(Student student) {
+        final String sql = "UPDATE student " +
+                "SET first_name = ?, " +
+                "    last_name = ? " +
+                "WHERE id = ?;";
+
+        try(Connection connection = DbUtil.getConn();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, student.getFirstName());
+            ps.setString(2, student.getLastName());
+            ps.setLong(3, student.getId());
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
