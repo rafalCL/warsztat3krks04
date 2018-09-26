@@ -18,10 +18,23 @@
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
 
 <h2>Ostatnie rozwiązania</h2>
-    <c:forEach var="sol" items="${solutions}">
-        ${sol.id} <a href="/solution/details?id=${sol.id}">Szczegóły</a><br>
-    </c:forEach>
+<table>
+    <tr>
+        <th>Lp</th>
+        <th>Submission date</th>
+        <th>Student</th>
+        <th>Actions</th>
+    </tr>
 
+    <c:forEach var="sol" items="${solutions}" varStatus="status">
+        <tr>
+            <td>${status.count}</td>
+            <td>${sol.submissionDate}</td>
+            <td><a href="/student/details?id=${sol.student.id}">${sol.student.firstName} ${sol.student.lastName}</a></td>
+            <td><a href="/solution/details?id=${sol.id}">Szczegóły</a></td>
+        </tr>
+    </c:forEach>
+</table>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
 </body>
 </html>

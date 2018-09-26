@@ -11,14 +11,17 @@ import java.util.Date;
 import java.util.List;
 
 public class Solution {
+    private final static String SELECT_ALL_COLUMNS = "SELECT id, submission_date, answer, student_id ";
+
     private long id;
     private String answer;
     private Date submissionDate;
+    private long studentId;
 
     public static List<Solution> loadAll(long max) {
         List<Solution> result = new ArrayList<>();
 
-        final String sql = "SELECT id, submission_date, answer " +
+        final String sql = SELECT_ALL_COLUMNS +
                 "FROM solution " +
                 "LIMIT ?";
         try(Connection connection = DbUtil.getConn();
@@ -40,7 +43,7 @@ public class Solution {
     public static Solution loadById(long id) {
         Solution result = null;
 
-        final String sql = "SELECT id, submission_date, answer " +
+        final String sql = SELECT_ALL_COLUMNS +
                 "FROM solution " +
                 "WHERE id=?";
         try(Connection connection = DbUtil.getConn();
@@ -56,6 +59,10 @@ public class Solution {
         }
 
         return result;
+    }
+
+    public Student getStudent(){
+        return Student.loadById(this.studentId);
     }
 
     public long getId() {
@@ -82,11 +89,20 @@ public class Solution {
         this.answer = answer;
     }
 
+    public long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
+    }
+
     private static Solution getFromRS(ResultSet rs) throws SQLException {
         Solution sol = new Solution();
         sol.setId(rs.getLong("id"));
         sol.setSubmissionDate(rs.getDate("submission_date"));
         sol.setAnswer(rs.getString("answer"));
+        sol.setStudentId(rs.getLong("student_id"));
 
         return sol;
     }
