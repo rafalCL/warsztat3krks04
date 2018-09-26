@@ -7,16 +7,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Solution {
     private long id;
     private String answer;
+    private Date submissionDate;
 
     public static List<Solution> loadAll(long max) {
         List<Solution> result = new ArrayList<>();
 
-        final String sql = "SELECT id, answer " +
+        final String sql = "SELECT id, submission_date, answer " +
                 "FROM solution " +
                 "LIMIT ?";
         try(Connection connection = DbUtil.getConn();
@@ -24,9 +26,7 @@ public class Solution {
             ps.setLong(1, max);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                Solution sol = new Solution();
-                sol.setId(rs.getLong(1));
-                sol.setAnswer(rs.getString(2));
+                Solution sol = getFromRS(rs);
                 result.add(sol);
             }
             rs.close();
@@ -40,7 +40,7 @@ public class Solution {
     public static Solution loadById(long id) {
         Solution result = null;
 
-        final String sql = "SELECT id, answer " +
+        final String sql = "SELECT id, submission_date, answer " +
                 "FROM solution " +
                 "WHERE id=?";
         try(Connection connection = DbUtil.getConn();
@@ -48,9 +48,7 @@ public class Solution {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                result = new Solution();
-                result.setId(rs.getLong(1));
-                result.setAnswer(rs.getString(2));
+                result = getFromRS(rs);
             }
             rs.close();
         } catch (SQLException e) {
@@ -68,11 +66,28 @@ public class Solution {
         this.id = id;
     }
 
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
+    }
+
     public String getAnswer() {
         return answer;
     }
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    private static Solution getFromRS(ResultSet rs) throws SQLException {
+        Solution sol = new Solution();
+        sol.setId(rs.getLong("id"));
+        sol.setSubmissionDate(rs.getDate("submission_date"));
+        sol.setAnswer(rs.getString("answer"));
+
+        return sol;
     }
 }
