@@ -12,13 +12,13 @@
          isELIgnored="false" %>
 <html>
 <head>
-    <title>Solution details - Programming School</title>
+    <title>Student details - Programming School</title>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
-<p>Rozwiązanie zadania:</p>
-<p>${solution.id}</p>
-<p>${solution.answer}</p>
+<p>Dane studenta:</p>
+<p>Imię: ${student.firstName}</p>
+<p>Nazwisko: ${student.lastName}</p>
 
 <%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
 </body>

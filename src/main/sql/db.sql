@@ -1,6 +1,7 @@
 -- recreate DB
 DROP DATABASE warsztat3krks04;
-CREATE DATABASE warsztat3krks04;
+CREATE DATABASE warsztat3krks04
+    CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE warsztat3krks04;
 
 -- tables
