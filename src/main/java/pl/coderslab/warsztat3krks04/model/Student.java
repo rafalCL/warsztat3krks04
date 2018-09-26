@@ -2,10 +2,7 @@ package pl.coderslab.warsztat3krks04.model;
 
 import pl.coderslab.warsztat3krks04.utils.DbUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +10,15 @@ public class Student {
     private long id;
     private String firstName;
     private String lastName;
+
+    public Student(){
+
+    }
+
+    public Student(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     public static List<Student> loadAll(long max) {
         List<Student> result = new ArrayList<>();
@@ -57,6 +63,23 @@ public class Student {
         return result;
     }
 
+    public static void insert(Student student){
+        final String sql = "INSERT INTO student " +
+                "(first_name, last_name) " +
+                "VALUES (?, ?);";
+
+        try(Connection connection = DbUtil.getConn();
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, student.getFirstName());
+            ps.setString(2, student.getLastName());
+            ps.executeUpdate();
+            student.setId(getGeneratedId(ps));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public long getId() {
         return id;
     }
@@ -88,5 +111,16 @@ public class Student {
         student.setLastName(rs.getString("last_name"));
 
         return student;
+    }
+
+    private static long getGeneratedId(PreparedStatement ps) throws SQLException{
+        long result = 0;
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            result = rs.getInt(1);
+        }
+        rs.close();
+
+        return result;
     }
 }
