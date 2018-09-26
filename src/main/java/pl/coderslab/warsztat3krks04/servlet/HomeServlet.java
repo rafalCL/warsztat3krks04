@@ -1,5 +1,6 @@
 package pl.coderslab.warsztat3krks04.servlet;
 
+import pl.coderslab.warsztat3krks04.model.Solution;
 import pl.coderslab.warsztat3krks04.utils.DbUtil;
 
 import javax.servlet.ServletException;
@@ -11,10 +12,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "HomeServlet", urlPatterns = "/")
 public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Solution> sols = Solution.loadAll(5);
+        request.setAttribute("solutions", sols);
+
         getServletContext()
                 .getRequestDispatcher("/home.jsp")
                 .forward(request, response);
