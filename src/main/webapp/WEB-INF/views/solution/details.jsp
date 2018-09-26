@@ -16,10 +16,9 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
-
-    <c:forEach var="sol" items="${solutions}">
-        ${sol.id} <a href="/solution?id=${sol.id}">Szczegóły</a><br>
-    </c:forEach>
+<p>Rozwiązanie zadania:</p>
+<p>${solution.id}</p>
+<p>${solution.answer}</p>
 
 <%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
 </body>

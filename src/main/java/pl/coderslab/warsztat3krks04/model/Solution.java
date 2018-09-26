@@ -37,6 +37,29 @@ public class Solution {
         return result;
     }
 
+    public static Solution loadById(long id) {
+        Solution result = null;
+
+        final String sql = "SELECT id, answer " +
+                "FROM solution " +
+                "WHERE id=?";
+        try(Connection connection = DbUtil.getConn();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                result = new Solution();
+                result.setId(rs.getLong(1));
+                result.setAnswer(rs.getString(2));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     public long getId() {
         return id;
     }
